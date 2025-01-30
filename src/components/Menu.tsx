@@ -26,40 +26,24 @@ interface AppPage {
 const appPages: AppPage[] = [
   {
     title: 'Clientes',
-    url: '/folder/Clientes',
+    url: '/page/customers',
     iosIcon: personAddOutline,
     mdIcon: personAdd
   },
+
   {
-    title: 'Outbox',
-    url: '/folder/Outbox',
-    iosIcon: paperPlaneOutline,
-    mdIcon: paperPlaneSharp
+    title: 'Empleados',
+    url: '/page/employees',
+    iosIcon: personAddOutline,
+    mdIcon: personAdd
   },
-  {
-    title: 'Favorites',
-    url: '/folder/Favorites',
-    iosIcon: heartOutline,
-    mdIcon: heartSharp
+   {
+    title: 'Proveedor',
+    url: '/page/vendors',
+    iosIcon: personAddOutline,
+    mdIcon: personAdd
   },
-  {
-    title: 'Archived',
-    url: '/folder/Archived',
-    iosIcon: archiveOutline,
-    mdIcon: archiveSharp
-  },
-  {
-    title: 'Trash',
-    url: '/folder/Trash',
-    iosIcon: trashOutline,
-    mdIcon: trashSharp
-  },
-  {
-    title: 'Spam',
-    url: '/folder/Spam',
-    iosIcon: warningOutline,
-    mdIcon: warningSharp
-  }
+  
 ];
 
 const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];

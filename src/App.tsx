@@ -20,19 +20,16 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 
-/**
- * Ionic Dark Mode
- * -----------------------------------------------------
- * For more info, please see:
- * https://ionicframework.com/docs/theming/dark-mode
- */
-
-/* import '@ionic/react/css/palettes/dark.always.css'; */
-/* import '@ionic/react/css/palettes/dark.class.css'; */
-import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import CustomerList from './pages/customer/CustomerList';
+import CustomerEdit from './pages/customer/CustomerEdit';
+import VendorList from './pages/vendor/VendorList';
+import VendorEdit from './pages/vendor/VendorEdit';
+import EmployeeList from './pages/employee/EmployeeList';
+import EmployeeEdit from './pages/employee/EmployeeEdit';
+
 
 setupIonicReact();
 
@@ -44,16 +41,38 @@ const App: React.FC = () => {
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/folder/Inbox" />
+              <Redirect to="/page/customers" />
             </Route>
-            <Route path="/folder/:name" exact={true}>
-              <Page />
+            <Route path="/page/customers" exact={true}>
+              <CustomerList />
             </Route>
+
+            <Route path="/page/customer/:id" exact={true}>
+              <CustomerEdit />
+            </Route>
+            
+            <Route path="/page/employees" exact={true}>
+              <EmployeeList />
+            </Route>
+
+            <Route path="/page/employee/:id" exact={true}>
+              <EmployeeEdit />
+            </Route>
+
+            <Route path="/page/vendors" exact={true}>
+              <VendorList />
+            </Route>
+
+            <Route path="/page/vendor/:id" exact={true}>
+              <VendorEdit />
+            </Route>
+
           </IonRouterOutlet>
         </IonSplitPane>
       </IonReactRouter>
     </IonApp>
   );
 };
+
 
 export default App;
