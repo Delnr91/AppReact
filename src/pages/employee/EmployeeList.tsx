@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { removeEmployee, searchEmployees } from './EmployeeApi';
 import Employee from './Employee';
 
-const EmployeeList: React.FC = () => {
+const EmployeeList: React.FC = (props: any) => {
 
     /* funcion para cargar listado de empleados*/
     const { name } = useParams<{ name: string; }>();
@@ -17,13 +17,13 @@ const EmployeeList: React.FC = () => {
         search();
     }, [history.location.pathname]);
 
-    const search = () => {
-        let result = searchEmployees();
+    const search = async () => {
+        let result = await searchEmployees();
         setEmpleados(result);
 
     }
-    const remove = (id: string) => {
-        removeEmployee(id);
+    const remove = async (id: string) => {
+        await removeEmployee(id);
         search();
     }
     const addEmployee = () => {
@@ -73,7 +73,7 @@ const EmployeeList: React.FC = () => {
                             </IonRow>
 
                             {empleados.map((empleado: Employee) =>
-                                <IonRow>
+                               <IonRow key={empleado.id}> {/* Agrega la propiedad key aquí */}
                                     <IonCol>{empleado.firstname}{empleado.lastname}</IonCol>
                                     <IonCol>{empleado.email}</IonCol>
                                     <IonCol>{empleado.phone}</IonCol>

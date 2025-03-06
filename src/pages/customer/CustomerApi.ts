@@ -1,42 +1,46 @@
 import Customer from "./Customer";
-
-export function searchCustomers() {
-
-    if (!localStorage['customers']) {
-        localStorage['customers'] = '[]'
+//Busqueda de clientes
+export async function searchCustomers() {
+  let url = import.meta.env.VITE_API_URL + 'customers'
+  let response = await fetch(url, {
+    "method": 'GET',
+    "headers": {
+      "Content-Type": 'application/json'
     }
-    let customers = localStorage['customers'];
-    customers = JSON.parse(customers);
-    return customers;
+  })
 
+  return await response.json();
 }
 
-export function removeCustomer(id: string) {
-    let customers = searchCustomers();
-
-    let indice = customers.findIndex((customer: Customer) => customer.id == id);
-    customers.splice(indice, 1);
-
-    localStorage['customers'] = JSON.stringify(customers);
-}
-
-
-export function saveCustomer(customer: Customer) {
-    let customers = searchCustomers();
-    if (customer.id) {
-        //Para Editar
-        let indice = customers.findIndex((c: Customer) => c.id == customer.id);
-        customers[indice] = customer;
-    } else {
-        //Para el nuevo editado
-        customer.id = String(Math.round(Math.random() * 100000));
-        customers.push(customer);
+export async function removeCustomer(id: string) {
+  let url = import.meta.env.VITE_API_URL + 'customers/' + id
+  await fetch(url, {
+    "method": 'DELETE',
+    "headers": {
+      "Content-Type": 'application/json'
     }
-    localStorage['customers'] = JSON.stringify(customers);
+  })
 }
 
+export async function saveCustomer(customer: Customer) {
+  let url = import.meta.env.VITE_API_URL + 'customers'
+  await fetch(url, {
+    "method": 'POST',
+    "body": JSON.stringify(customer),
+    "headers": {
+      "Content-Type": 'application/json'
+    }
+  });
+}
 
-export function searchCustomerById(id: string) {
-    let customers = searchCustomers();
-    return customers.find((customer: any) => customer.id == id);
+export async function searchCustomerById(id: string) {
+  let url = import.meta.env.VITE_API_URL + 'customers/' + id
+  let response = await fetch(url, {
+    "method": 'GET',
+    "headers": {
+      "Content-Type": 'application/json'
+    }
+  })
+
+  return await response.json();
 }

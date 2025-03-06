@@ -1,5 +1,5 @@
 import { IonButton, IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { useHistory, useParams } from 'react-router';
+import { useHistory, useParams, useRouteMatch } from 'react-router';
 import ExploreContainer from '../../components/ExploreContainer';
 import { add, checkmark, close, closeCircle, pencil } from 'ionicons/icons';
 import { useEffect, useState } from 'react';
@@ -8,30 +8,36 @@ import Customer from './Customer';
 
 const CustomerEdit: React.FC = () => {
 
-    const { name, id } = useParams<{ name: string; id: string; }>();
+    const { name } = useParams<{ name: string; }>();
 
     /* funcion para editar los  clientes*/
     const [customer, setCustomer] = useState<Customer>({});
     const history = useHistory();
 
+    const routeMatch: any = useRouteMatch("/page/customer/:id");
+    const id = routeMatch?.params?.id;
+    
     useEffect(() => {
         search();
-    }, []);
+    }, [history.location.pathname]);
 
-    const search = () => {
-        if(id !== 'new'){
-            let result = searchCustomerById(id);
+    const search = async () => {
+
+        if (id === 'new') {
+            setCustomer({});
+        } else {
+            let result = await searchCustomerById(id);
             setCustomer(result);
         }
-        
+
     }
 
-    const save = () => {
-        
-        saveCustomer(customer);
+    const save = async () => {
+
+        await saveCustomer(customer);
         history.push('/page/customers');
     }
-   
+
 
     return (
         <IonPage>
@@ -60,7 +66,7 @@ const CustomerEdit: React.FC = () => {
                             <IonCol>
                                 <IonItem>
                                     <IonInput label="Nombre" labelPlacement="stacked"
-                                        onIonChange={e => customer.firstname = String(e.detail.value)} 
+                                        onIonChange={e => customer.firstname = String(e.detail.value)}
                                         placeholder={customer.firstname}></IonInput>
                                 </IonItem>
                             </IonCol>
@@ -68,8 +74,8 @@ const CustomerEdit: React.FC = () => {
                             <IonCol>
                                 <IonItem>
                                     <IonInput label="Apellido" labelPlacement="stacked"
-                                           onIonChange={e => customer.lastname = String(e.detail.value)} 
-                                           placeholder={customer.lastname}></IonInput>
+                                        onIonChange={e => customer.lastname = String(e.detail.value)}
+                                        placeholder={customer.lastname}></IonInput>
                                 </IonItem>
                             </IonCol>
                         </IonRow>
@@ -77,23 +83,23 @@ const CustomerEdit: React.FC = () => {
                             <IonCol>
                                 <IonItem>
                                     <IonInput label="Email" labelPlacement="stacked"
-                                          onIonChange={e => customer.email = String(e.detail.value)} 
-                                          placeholder={customer.email}></IonInput>
+                                        onIonChange={e => customer.email = String(e.detail.value)}
+                                        placeholder={customer.email}></IonInput>
                                 </IonItem>
                             </IonCol>
                             <IonCol>
                                 <IonItem>
                                     <IonInput label="Teléfono" labelPlacement="stacked"
-                                            onIonChange={e => customer.phone = String(e.detail.value)} 
-                                            placeholder={customer.phone}></IonInput>
+                                        onIonChange={e => customer.phone = String(e.detail.value)}
+                                        placeholder={customer.phone}></IonInput>
                                 </IonItem>
                             </IonCol>
                             <IonRow>
                                 <IonCol>
                                     <IonItem>
                                         <IonInput label="Dirección" labelPlacement="stacked"
-                                               onIonChange={e => customer.address = String(e.detail.value)} 
-                                               placeholder={customer.address}></IonInput>
+                                            onIonChange={e => customer.address = String(e.detail.value)}
+                                            placeholder={customer.address}></IonInput>
                                     </IonItem>
                                 </IonCol>
                             </IonRow>

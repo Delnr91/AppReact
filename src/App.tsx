@@ -25,10 +25,11 @@ import '@ionic/react/css/display.css';
 import './theme/variables.css';
 import CustomerList from './pages/customer/CustomerList';
 import CustomerEdit from './pages/customer/CustomerEdit';
-import VendorList from './pages/vendor/VendorList';
-import VendorEdit from './pages/vendor/VendorEdit';
 import EmployeeList from './pages/employee/EmployeeList';
 import EmployeeEdit from './pages/employee/EmployeeEdit';
+import SupplierList from './pages/supplier/SupplierList';
+import SupplierEdit from './pages/supplier/SupplierEdit';
+
 
 
 setupIonicReact();
@@ -41,7 +42,7 @@ const App: React.FC = () => {
           <Menu />
           <IonRouterOutlet id="main">
             <Route path="/" exact={true}>
-              <Redirect to="/page/customers" />
+              <Redirect to="/page/main" />
             </Route>
             <Route path="/page/customers" exact={true}>
               <CustomerList />
@@ -59,12 +60,12 @@ const App: React.FC = () => {
               <EmployeeEdit />
             </Route>
 
-            <Route path="/page/vendors" exact={true}>
-              <VendorList />
+            <Route path="/page/suppliers" exact={true}>
+              <SupplierList />
             </Route>
 
-            <Route path="/page/vendor/:id" exact={true}>
-              <VendorEdit />
+            <Route path="/page/supplier/:id" exact={true}>
+              <SupplierEdit />
             </Route>
 
           </IonRouterOutlet>

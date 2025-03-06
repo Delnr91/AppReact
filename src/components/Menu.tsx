@@ -37,9 +37,10 @@ const appPages: AppPage[] = [
     iosIcon: personAddOutline,
     mdIcon: personAdd
   },
-   {
+
+  {
     title: 'Proveedor',
-    url: '/page/vendors',
+    url: '/page/suppliers',
     iosIcon: personAddOutline,
     mdIcon: personAdd
   },

@@ -1,7 +1,7 @@
-import Employee from "./Employee";
+import Supplier from "./Supplier";
 
-export async function searchEmployees() {
-  let url = import.meta.env.VITE_API_URL + 'employees'
+export async function searchSuppliers() {
+  let url =  import.meta.env.VITE_API_URL  + 'suppliers'
   let response = await fetch(url, {
     "method": 'GET',
     "headers": {
@@ -12,8 +12,8 @@ export async function searchEmployees() {
   return await response.json();
 }
 
-export async function removeEmployee(id: string) {
-  let url = import.meta.env.VITE_API_URL + 'employees/' + id
+export async function removeSupplier(id: string) {
+  let url = import.meta.env.VITE_API_URL  + 'suppliers/' + id
   await fetch(url, {
     "method": 'DELETE',
     "headers": {
@@ -22,19 +22,19 @@ export async function removeEmployee(id: string) {
   })
 }
 
-export async function saveEmployee(employee: Employee) {
-  let url = import.meta.env.VITE_API_URL + 'employees'
+export async function saveSupplier(supplier: Supplier) {
+  let url = import.meta.env.VITE_API_URL  + 'suppliers'
   await fetch(url, {
     "method": 'POST',
-    "body": JSON.stringify(employee),
+    "body": JSON.stringify(supplier),
     "headers": {
       "Content-Type": 'application/json'
     }
   });
 }
 
-export async function searchEmployeeById(id: string) {
-  let url = import.meta.env.VITE_API_URL + 'employees/' + id
+export async function searchSupplierById(id: string) {
+  let url = import.meta.env.VITE_API_URL  + 'suppliers/' + id
   let response = await fetch(url, {
     "method": 'GET',
     "headers": {
