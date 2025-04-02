@@ -1,5 +1,5 @@
 ion-menu ion-content {
-  --background: var(--ion-item-background, var(--ion-background-color, #fff));
+  --background: #FFFFFF; /* Fondo blanco para el contenido del menú */
 }
 
 ion-menu.md ion-content {
@@ -15,6 +15,7 @@ ion-menu.md ion-list {
 
 ion-menu.md ion-note {
   margin-bottom: 30px;
+  color: var(--ion-color-medium-shade); /* Mantenemos el color medium para la nota */
 }
 
 ion-menu.md ion-list-header, ion-menu.md ion-note {
@@ -22,19 +23,20 @@ ion-menu.md ion-list-header, ion-menu.md ion-note {
 }
 
 ion-menu.md ion-list#inbox-list {
-  border-bottom: 1px solid var(--ion-background-color-step-150, #d7d8da);
+  border-bottom: 1px solid #E9F1FA; /* Borde azul claro */
 }
 
 ion-menu.md ion-list#inbox-list ion-list-header {
   font-size: 22px;
   font-weight: 600;
   min-height: 20px;
+  color: #000000; /* Texto negro para el header */
 }
 
 ion-menu.md ion-list#labels-list ion-list-header {
   font-size: 16px;
   margin-bottom: 18px;
-  color: #757575;
+  color: #000000;
   min-height: 26px;
 }
 
@@ -45,15 +47,15 @@ ion-menu.md ion-item {
 }
 
 ion-menu.md ion-item.selected {
-  --background: rgba(var(--ion-color-primary-rgb), 0.14);
+  --background: rgba(0, 171, 228, 0.14); /* Azul brillante con opacidad para el ítem seleccionado */
 }
 
 ion-menu.md ion-item.selected ion-icon {
-  color: var(--ion-color-primary);
+  color: #00ABE4; /* Azul brillante para el ícono seleccionado */
 }
 
 ion-menu.md ion-item ion-icon {
-  color: #616e7e;
+  color: #888888; /* Gris claro para los íconos no seleccionados */
 }
 
 ion-menu.md ion-item ion-label {
@@ -71,6 +73,7 @@ ion-menu.ios ion-list {
 ion-menu.ios ion-note {
   line-height: 24px;
   margin-bottom: 20px;
+  color: var(--ion-color-medium-shade); /* Mantenemos el color medium para la nota */
 }
 
 ion-menu.ios ion-item {
@@ -81,11 +84,11 @@ ion-menu.ios ion-item {
 
 ion-menu.ios ion-item ion-icon {
   font-size: 24px;
-  color: #73849a;
+  color: #888888; /* Gris claro para los íconos iOS */
 }
 
 ion-menu.ios ion-item .selected ion-icon {
-  color: var(--ion-color-primary);
+  color: #00ABE4; /* Azul brillante para el ícono seleccionado en iOS */
 }
 
 ion-menu.ios ion-list#labels-list ion-list-header {
@@ -109,5 +112,22 @@ ion-note {
 }
 
 ion-item.selected {
-  --color: var(--ion-color-primary);
-} 
+  --color: #00ABE4; /* Azul brillante para el texto seleccionado */
+}
+
+ion-list-header {
+  display: flex;
+  align-items: normal;
+  padding: auto;
+}
+
+ion-list-header ion-img {
+  width: auto;
+  height: auto;
+  display: block;
+  margin-right: 10px;
+}
+
+ion-list#inbox-list {
+  padding-top: 20px;
+}

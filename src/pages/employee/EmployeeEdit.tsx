@@ -1,38 +1,70 @@
-import { IonButton, IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import { useHistory, useParams, useRouteMatch } from 'react-router';
-import ExploreContainer from '../../components/ExploreContainer';
-import { add, checkmark, close, closeCircle, pencil } from 'ionicons/icons';
-import { useEffect, useState } from 'react';
-import { removeEmployee, saveEmployee, searchEmployeeById, searchEmployees } from './EmployeeApi';
-import Employee from './Employee';
+import { IonButton, IonButtons, IonCard, IonCol, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
+import { checkmark } from "ionicons/icons";
+import { useEffect, useState } from "react";
+import { useHistory, useParams, useRouteMatch } from "react-router";
+import Employee from "./Employee";
+import { saveEmployee, searchEmployeeById } from "./EmployeeApi";
 
+/**
+ * Componente para editar o agregar un empleado.
+ */
 const EmployeeEdit: React.FC = () => {
-    const { name } = useParams<{ name: string; }>();
-  
-    const [employee, setEmployee] = useState<Employee>({});
-    const history = useHistory();
-  
-    const routeMatch: any = useRouteMatch("/page/employee/:id");
-    const id = routeMatch?.params?.id;
-  
-    useEffect(() => {
-      search();
-    }, [history.location.pathname]);
-  
-    const search = async () => {
-      if (id === 'new') {
-        setEmployee({});
-      } else {
-        let result = await searchEmployeeById(id);
-        setEmployee(result);
+  // Obtiene el nombre del parámetro de la URL.
+  const { name } = useParams<{ name: string }>();
+  // Estado para almacenar el objeto Employee que se está editando o creando.
+  const [employee, setEmployee] = useState<Employee>({} as Employee);
+  // Hook para manejar la navegación entre rutas.
+  const history = useHistory();
+  // Hook para obtener información sobre la ruta actual.
+  const routeMatch = useRouteMatch<{ id: string }>("/page/employee/:id");
+  // Obtiene el ID del empleado de la ruta. Si es "new", se está creando un nuevo empleado.
+  const id = routeMatch?.params?.id;
+
+  /**
+   * Efecto secundario que se ejecuta cuando el ID cambia.
+   * Llama a la función search para cargar los datos del empleado.
+   */
+  useEffect(() => {
+    search();
+  }, [id]);
+
+  /**
+   * Función asíncrona para buscar y cargar los datos del empleado.
+   * Si el ID es "new", inicializa el estado con un objeto Employee vacío.
+   * Si el ID es un número, llama a la API para obtener el empleado por su ID.
+   */
+  const search = async () => {
+    if (id === "new") {
+      setEmployee({} as Employee);
+    } else {
+      try {
+        // Convierte el ID a número y llama a la API para obtener el empleado.
+        const result = await searchEmployeeById(Number(id) || 0);
+        // Si se encuentra el empleado, actualiza el estado.
+        if (result) setEmployee(result);
+      } catch (error) {
+        // Maneja cualquier error que ocurra durante la búsqueda.
+        console.error("Error al cargar empleado:", error);
       }
     }
-  
-    const save = async () => {
+  };
+
+  /**
+   * Función asíncrona para guardar los datos del empleado.
+   * Llama a la API para guardar el empleado y luego navega a la lista de empleados.
+   */
+  const save = async () => {
+    try {
+      // Llama a la API para guardar el empleado.
       await saveEmployee(employee);
-      history.push('/page/employees');
+      // Navega a la lista de empleados.
+      history.push("/page/employees");
+    } catch (error) {
+      // Maneja cualquier error que ocurra durante el guardado.
+      console.error("Error al guardar empleado:", error);
     }
-  
+  };
+
 
     return (
         <IonPage>
@@ -52,78 +84,96 @@ const EmployeeEdit: React.FC = () => {
                     </IonToolbar>
                 </IonHeader>
 
-                {/*Contenido Edicion Empleado - ion-input(stocked-label)*/}
                 <IonContent>
                     <IonCard>
                         <IonTitle>{id === 'new' ? 'Agregar Empleado' : 'Editar Empleado'}</IonTitle>
 
                         <IonRow>
-                            <IonCol>
-                                <IonItem>
-                                    <IonInput label="Nombre" labelPlacement="stacked"
-                                        onIonChange={e => employee.firstname = String(e.detail.value)}
-                                        placeholder={employee.firstname}></IonInput>
-                                </IonItem>
-                            </IonCol>
-
-                            <IonCol>
-                                <IonItem>
-                                    <IonInput label="Apellido" labelPlacement="stacked"
-                                        onIonChange={e => employee.lastname = String(e.detail.value)}
-                                        placeholder={employee.lastname}></IonInput>
-                                </IonItem>
-                            </IonCol>
-                        </IonRow>
-                        <IonRow>
-                            <IonCol>
-                                <IonItem>
-                                    <IonInput label="Email" labelPlacement="stacked"
-                                        onIonChange={e => employee.email = String(e.detail.value)}
-                                        placeholder={employee.email}></IonInput>
-                                </IonItem>
-                            </IonCol>
-                            <IonCol>
-                                <IonItem>
-                                    <IonInput label="Teléfono" labelPlacement="stacked"
-                                        onIonChange={e => employee.phone = String(e.detail.value)}
-                                        placeholder={employee.phone}></IonInput>
-                                </IonItem>
-                            </IonCol>
                             <IonRow>
                                 <IonCol>
                                     <IonItem>
-                                        <IonInput label="Dirección" labelPlacement="stacked"
-                                            onIonChange={e => employee.address = String(e.detail.value)}
-                                            placeholder={employee.address}></IonInput>
+                                        <IonInput
+                                            label="Nombre"
+                                            labelPlacement="stacked"
+                                            value={employee.firstname}
+                                            onIonChange={(e) => setEmployee({ ...employee, firstname: e.detail.value || '' })}
+                                        />
                                     </IonItem>
                                 </IonCol>
                             </IonRow>
                             <IonRow>
-                            <IonCol>
-                                <IonItem>
-                                    <IonInput label="Salario" labelPlacement="stacked"
-                                        onIonChange={e => employee.salary = Number(e.detail.value)}
-                                        placeholder={employee.salary?.toString()}></IonInput>
-                                </IonItem>
-                            </IonCol>
+                                <IonCol>
+                                    <IonItem>
+                                        <IonInput
+                                            label="Apellido"
+                                            labelPlacement="stacked"
+                                            value={employee.lastname}
+                                            onIonChange={(e) => setEmployee({ ...employee, lastname: e.detail.value || '' })}
+                                        />
+                                    </IonItem>
+                                </IonCol>
+                            </IonRow>
+                            <IonRow>
+                                <IonCol>
+                                    <IonItem>
+                                        <IonInput
+                                            label="Email"
+                                            labelPlacement="stacked"
+                                            value={employee.email}
+                                            onIonChange={(e) => setEmployee({ ...employee, email: e.detail.value || '' })}
+                                        />
+                                    </IonItem>
+                                </IonCol>
+                            </IonRow>
+                            <IonRow>
+                                <IonCol>
+                                    <IonItem>
+                                        <IonInput
+                                            label="Teléfono"
+                                            labelPlacement="stacked"
+                                            value={employee.phone}
+                                            onIonChange={(e) => setEmployee({ ...employee, phone: e.detail.value || '' })}
+                                        />
+                                    </IonItem>
+                                </IonCol>
+                            </IonRow>
+                            <IonRow>
+                                <IonCol>
+                                    <IonItem>
+                                        <IonInput
+                                            label="Dirección"
+                                            labelPlacement="stacked"
+                                            value={employee.address}
+                                            onIonChange={(e) => setEmployee({ ...employee, address: e.detail.value || '' })}
+                                        />
+                                    </IonItem>
+                                </IonCol>
+                            </IonRow>
+                            <IonRow>
+                                <IonCol>
+                                    <IonItem>
+                                        <IonInput
+                                            label="Salario"
+                                            labelPlacement="stacked"
+                                            value={employee.salary}
+                                            onIonChange={(e) => setEmployee({ ...employee, salary: Number(e.detail.value) || 0 })}
+                                        />
+                                    </IonItem>
+                                </IonCol>
+                            </IonRow>
                         </IonRow>
-                        </IonRow>
+
                         <IonItem>
-                            <IonButton onClick={save} color="success" fill="solid" slot='end'
-                                size='default'>
+                            <IonButton onClick={save} color="success" fill="solid" slot="end" size="default">
                                 <IonIcon icon={checkmark} />
                                 Guardar
                             </IonButton>
                         </IonItem>
-
-
                     </IonCard>
                 </IonContent>
             </IonContent>
-
-        </IonPage >
+        </IonPage>
     );
 };
-
 
 export default EmployeeEdit;

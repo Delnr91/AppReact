@@ -10,15 +10,22 @@
 #container strong {
   font-size: 20px;
   line-height: 26px;
+  color: #00ABE4; /* Azul brillante para el texto fuerte */
 }
 
 #container p {
   font-size: 16px;
   line-height: 22px;
-  color: #8c8c8c;
+  color: #333333; /* Gris oscuro para el texto normal (o puedes usar un azul oscuro si lo prefieres) */
   margin: 0;
 }
 
 #container a {
   text-decoration: none;
+  color: #00ABE4; /* Azul brillante para los enlaces */
+}
+
+/* Opcional: Cambiar el color al pasar el ratón por encima de los enlaces */
+#container a:hover {
+  color: #0098cc; /* Un tono más oscuro de azul brillante al pasar el ratón */
 }

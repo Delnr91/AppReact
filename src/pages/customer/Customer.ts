@@ -1,9 +1,10 @@
 export default interface Customer {
-
-    id?: string;
-    firstname?:string;
-    lastname?: string;
-    email?: string;
+    id?: number; // El ID es numérico en el backend
+    firstname: string;
+    lastname: string;
+    email: string;
     phone?: string;
-    address?: string; 
-}
+    address?: string;
+  }
+
+  
